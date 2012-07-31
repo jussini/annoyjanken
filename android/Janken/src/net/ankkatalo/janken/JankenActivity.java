@@ -7,15 +7,21 @@ import android.widget.TextView;
 
 public class JankenActivity extends Activity {
 	
-	private JankenGame mGame = new JankenGame();
+	private static JankenGame mGame = new JankenGame();
 	
-	private JankenStats mStats = new JankenStats();
+	private static JankenStats mStats = new JankenStats();
+	
+	private static String mJankenText = "Let's play!";
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+    	TextView textView = (TextView) findViewById(R.id.textView);
+    	textView.setText(mJankenText); 
+        
     }
     
     public void onRockClicked(View view) {
@@ -76,6 +82,7 @@ public class JankenActivity extends Activity {
     	
     	TextView textView = (TextView) findViewById(R.id.textView);
     	textView.setText(gameTextBuilder);
+    	mJankenText = gameTextBuilder.toString();
         	
     }
 
