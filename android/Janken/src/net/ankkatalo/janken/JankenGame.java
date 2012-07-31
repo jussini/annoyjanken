@@ -122,4 +122,8 @@ public class JankenGame {
 		return null; // ugh, this is ugly
 	}
 	
+	public void clearHistory() {
+		mHistory = "";
+		mFreqMap.clear();
+	}
 }

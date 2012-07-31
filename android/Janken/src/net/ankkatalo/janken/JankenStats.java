@@ -46,4 +46,10 @@ public class JankenStats {
 	public float tiePercentage() {
 		return (float) (mTies * 100.0 / ((float)(totalGames()) + 0.00001));
 	}
+	
+	public void clearStats() {
+		mCPUWins = 0;
+		mPlayerWins = 0;
+		mTies = 0;		
+	}
 }

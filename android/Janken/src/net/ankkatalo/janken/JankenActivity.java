@@ -2,6 +2,9 @@ package net.ankkatalo.janken;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +26,14 @@ public class JankenActivity extends Activity {
     	textView.setText(mJankenText); 
         
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
     
     public void onRockClicked(View view) {
     	onClicked(new JankenItem.RockItem(), view);
@@ -86,5 +97,35 @@ public class JankenActivity extends Activity {
         	
     }
 
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.clearStatsItem:
+                clearStats();
+                return true;
+            case R.id.clearHistoryItem:
+            	clearHistory();
+            	return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    public void clearStats() {
+    	mStats.clearStats();
+    	mJankenText = "Stats cleared!";
+    	TextView textView = (TextView) findViewById(R.id.textView);
+    	textView.setText(mJankenText);    	
+    }
+    
+    public void clearHistory() {
+    	mGame.clearHistory();
+    	mJankenText = "History cleared!";
+    	TextView textView = (TextView) findViewById(R.id.textView);
+    	textView.setText(mJankenText);    	
+    }
+    
 }
 

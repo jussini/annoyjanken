@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, JankenActivity!</string>
     <string name="app_name">Janken</string>
+    <string name="clearHistoryString">Clear history</string>
+    <string name="clearStatsString">Clear stats</string>
 
 </resources>
