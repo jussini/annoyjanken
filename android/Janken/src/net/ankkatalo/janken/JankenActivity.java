@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 public class JankenActivity extends Activity {
 	
+	/** Game object responsible of selecting response and picking the winner */
 	private static JankenGame mGame = new JankenGame();
 	
+	/** to keep count of wins and losses*/
 	private static JankenStats mStats = new JankenStats();
 	
+	/** Text that will be always shown on the R.id.textView, should only be
+	 * changed using updateJankenText(String text) */
 	private static String mJankenText = "Let's play!";
 	
     /** Called when the activity is first created. */
@@ -22,9 +26,7 @@ public class JankenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-    	TextView textView = (TextView) findViewById(R.id.textView);
-    	textView.setText(mJankenText); 
-        
+        updateJankenText(mJankenText);        
     }
     
     @Override
@@ -90,11 +92,9 @@ public class JankenActivity extends Activity {
     	gameTextBuilder.append(String.format("Ties: %d (%d%%)\n", 
     			mStats.ties(), 
     			(int)mStats.tiePercentage()));
+
     	
-    	TextView textView = (TextView) findViewById(R.id.textView);
-    	textView.setText(gameTextBuilder);
-    	mJankenText = gameTextBuilder.toString();
-        	
+    	updateJankenText(gameTextBuilder.toString());        	
     }
 
     
@@ -113,19 +113,23 @@ public class JankenActivity extends Activity {
         }
     }
     
+    
     public void clearStats() {
     	mStats.clearStats();
-    	mJankenText = "Stats cleared!";
-    	TextView textView = (TextView) findViewById(R.id.textView);
-    	textView.setText(mJankenText);    	
+    	updateJankenText("Stats cleared!");    	
     }
+    
     
     public void clearHistory() {
     	mGame.clearHistory();
-    	mJankenText = "History cleared!";
-    	TextView textView = (TextView) findViewById(R.id.textView);
-    	textView.setText(mJankenText);    	
+    	updateJankenText("History cleared!");  	
     }
     
+    
+    public void updateJankenText(String text) {
+    	mJankenText = text;
+    	TextView textView = (TextView) findViewById(R.id.textView);
+    	textView.setText(mJankenText);
+    }
 }
 
