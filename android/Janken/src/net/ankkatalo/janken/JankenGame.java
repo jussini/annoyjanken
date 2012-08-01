@@ -126,4 +126,41 @@ public class JankenGame {
 		mHistory = "";
 		mFreqMap.clear();
 	}
+	
+	public String history() {
+		return mHistory;
+	}
+	
+	public void setHistory(String history) {
+		mHistory = history;
+	}
+	
+
+	/**
+	 * recreates the frequency table from a string of history. This is mainly
+	 * meant for restoring application state
+	 * 
+	 * */
+	public void rebuildFreqs() {
+				
+		// roll the history string		
+		for (int i = 0; i < mHistory.length(); ++i) {
+
+			// avoid out-indexing problems
+			if (i+mWindowSize > mHistory.length()) {
+				return; 
+			}
+			
+			// pick the feature size of mWindowSize staring from current index
+			String feature = mHistory.substring(i, i+mWindowSize);
+			
+			// otherwise add or update 
+			if (mFreqMap.containsKey(feature)) {
+				mFreqMap.put(feature, mFreqMap.get(feature)+1);
+			} else {
+				mFreqMap.put(feature, 1);
+			}			
+		}
+		
+	}
 }

@@ -11,16 +11,24 @@ public class JankenStats {
 		return mCPUWins + mPlayerWins + mTies;
 	}
 	
+	public void setCPUWins(int wins) {
+		mCPUWins = wins;
+	}
+	
 	public void addCPUWins() {
 		mCPUWins++;
 	}
-	
+		
 	public int CPUWins() {
 		return mCPUWins;
 	}
 	
 	public float CPUPercentage() {
 		return (float) (mCPUWins * 100.0 / ((float)(totalGames()) + 0.00001));
+	}
+	
+	public void setPlayerWins(int wins) {
+		mPlayerWins = wins;
 	}
 	
 	public void addPlayerWins() {
@@ -35,6 +43,10 @@ public class JankenStats {
 		return (float) (mPlayerWins * 100.0 / ((float)(totalGames()) + 0.00001));
 	}
 
+	public void setTies(int ties) {
+		mTies = ties;
+	}
+	
 	public void addTies() {
 		mTies++;
 	}

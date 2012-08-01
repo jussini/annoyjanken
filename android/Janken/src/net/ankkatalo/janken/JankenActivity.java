@@ -1,6 +1,7 @@
 package net.ankkatalo.janken;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,14 +27,46 @@ public class JankenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        updateJankenText(mJankenText);        
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        
+    	String history = prefs.getString("History", "");
+    	mGame.setHistory(history);
+    	mGame.rebuildFreqs();
+    	
+    	String jankenText = prefs.getString("GameText", "Let's play!");
+    	updateJankenText (jankenText);
+    	    	
+    	int cpuWins = prefs.getInt("CpuWins",0);
+    	mStats.setCPUWins(cpuWins);
+    	
+    	int playerWins = prefs.getInt("PlayerWins", 0);
+    	mStats.setPlayerWins(playerWins);
+    	
+    	int ties = prefs.getInt("Ties", 0);
+    	mStats.setTies(ties);
+                
     }
     
+    /** called either when activity is created (api 14+) or 
+     * when menu button has been pressed (pre api 14)*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+    
+    @Override
+    public void onPause() {
+        super.onPause();
+        
+        SharedPreferences.Editor ed = getPreferences(MODE_PRIVATE).edit();
+  	  	ed.putString("History", mGame.history());
+  	  	ed.putString("GameText", mJankenText);
+  	  	ed.putInt("CpuWins", mStats.CPUWins());
+  	  	ed.putInt("PlayerWins", mStats.playerWins());
+  	  	ed.putInt("Ties", mStats.ties());
+        ed.commit();
     }
     
     
