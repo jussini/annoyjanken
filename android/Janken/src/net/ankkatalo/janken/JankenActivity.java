@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class JankenActivity extends Activity {
@@ -20,6 +21,8 @@ public class JankenActivity extends Activity {
 	/** Text that will be always shown on the R.id.textView, should only be
 	 * changed using updateJankenText(String text) */
 	private static String mJankenText = "Let's play!";
+	
+	
 	
     /** Called when the activity is first created. */
     @Override
@@ -95,9 +98,18 @@ public class JankenActivity extends Activity {
     	JankenPlayer player = new JankenPlayer("Player 1", item);
     	JankenPlayer cpu    = new JankenPlayer("CPU", response);
     	JankenPlayer winner = mGame.selectWinner(player, cpu);
-
+    	
+    	// update correct graphics
+    	int playerResource = getGraphics(player, cpu);
+    	int cpuResource = getGraphics(cpu, player);
+    	
+    	ImageView playerView = (ImageView) findViewById(R.id.playerImageView);
+    	playerView.setImageResource(playerResource);
+    	ImageView cpuView = (ImageView) findViewById(R.id.cpuImageView);
+    	cpuView.setImageResource(cpuResource);
+    	
     	if (winner == null) {
-    		mStats.addTies();
+    		mStats.addTies();    	    		
     	}
     	else if (winner == player) {
     		mStats.addPlayerWins();
@@ -130,8 +142,44 @@ public class JankenActivity extends Activity {
     	updateJankenText(gameTextBuilder.toString());        	
     }
 
-    
-    @Override
+    /**
+     * returns the correct graphic resource for player1.
+     * */
+    private int getGraphics(JankenPlayer player1, JankenPlayer player2) {
+
+    	JankenPlayer winner = mGame.selectWinner(player1, player2);
+    	    	
+    	if (winner == null) {
+    		if (player1.item().shortName().equals("R")) {
+    			return R.drawable.rock;
+    		} else if(player1.item().shortName().equals("P")) {
+    			return R.drawable.paper;
+    		} else {
+    			return R.drawable.scissors;
+    		}
+    	} 
+    	else if (winner == player1 ) {
+    		if (player1.item().shortName().equals("R")) {
+    			return R.drawable.rock_win;
+    		} else if(player1.item().shortName().equals("P")) {
+    			return R.drawable.paper_win;
+    		} else {
+    			return R.drawable.scissors_win;
+    		}
+    	} else {
+    		if (player1.item().shortName().equals("R")) {
+    			return R.drawable.rock_lose;
+    		} else if(player1.item().shortName().equals("P")) {
+    			return R.drawable.paper_lose;
+    		} else {
+    			return R.drawable.scissors_lose;
+    		}
+    	}
+    	
+	}
+
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {

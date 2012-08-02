@@ -4,41 +4,80 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="@string/hello" />
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1" >
 
-        <Button
+        <ImageView
+            android:id="@+id/cpuImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/paper_lose" />
+        
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/hello" />
+
+       <ImageView
+            android:id="@+id/playerImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/rock_win"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="1dp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageButton
             android:id="@+id/rockButton"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Rock"
-            android:onClick="onRockClicked"/>
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:onClick="onRockClicked"
+            android:padding="1dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/rock" />
 
-        <Button
+        <ImageButton
             android:id="@+id/paperButton"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:layout_weight="1"
-            android:text="Paper"
-            android:onClick="onPaperClicked"/>
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:onClick="onPaperClicked"
+            android:padding="1dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/paper" />
 
-        <Button
+        <ImageButton
             android:id="@+id/scissorsButton"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Scissors"
-            android:onClick="onScissorsClicked"/>
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:onClick="onScissorsClicked"
+            android:padding="1dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/scissors" />
 
     </LinearLayout>
 
