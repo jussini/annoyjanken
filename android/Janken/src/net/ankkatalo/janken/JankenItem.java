@@ -4,6 +4,8 @@ public abstract class JankenItem {
 	private String mName;
 	private String mShortName;
 	
+	public enum ItemType {ROCK, PAPER, SCISSORS};
+	
 	public JankenItem (String name, String shortName) {
 		mName = name;
 		mShortName = shortName;

@@ -79,16 +79,18 @@ public class JankenGame {
 	    	return mSampleSpace.get(index);
 	    }
 	    
-	    JankenItem response;
-	    if (freqRock >= freqPaper && freqRock >= freqScissors) {
-	    	response = new JankenItem.PaperItem();
+	    // by default assume user will give rock, so response with paper...
+	    JankenItem response = new JankenItem.PaperItem();
+	    int maxFreq = freqRock;
+	    // ... but if the most probable is paper, response with scissors...
+	    if (freqPaper > maxFreq) {
+	    	maxFreq = freqPaper;
+	    	response = new JankenItem.ScissorsItem();	    	
 	    }
-	    else if (freqPaper >= freqRock && freqPaper >= freqScissors) {
-	    	response = new JankenItem.ScissorsItem();
-	    } 
-	    else {
-	    	response = new JankenItem.RockItem();
-	    }
+	    // and lastly, if the most probable item is scissors, response with rock
+		if (freqScissors > maxFreq) {
+			response = new JankenItem.RockItem();
+    	}
 	    
 	    return response;		
 	}
