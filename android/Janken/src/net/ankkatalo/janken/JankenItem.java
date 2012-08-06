@@ -11,14 +11,25 @@ public abstract class JankenItem {
 		mShortName = shortName;
 	}
 	
+	/**
+	 * @return long name for the item (eg. "rock", "paper", "scissors")
+	 * */
 	public String name() {
 		return mName;
 	}
 	
+	/**
+	 * @return short name for the item (eg. "R", "P", "S")
+	 * */
 	public String shortName() {
 		return mShortName;
 	}
 	
+	/**
+	 * Decides whether this item will beat the other
+	 * @return JankenGame.WinType that tells whether this item BEATS, LOSES  or 
+	 *         TIEs with the other
+	 * */
 	public abstract JankenGame.WinType beats(JankenItem other);
 	
 	

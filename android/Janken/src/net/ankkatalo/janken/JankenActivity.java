@@ -55,9 +55,7 @@ public class JankenActivity extends Activity {
 
     	mCpuGraphic = prefs.getInt("CpuGraphic", R.drawable.unknown);    	
     	ImageView cpuView = (ImageView) findViewById(R.id.cpuImageView);
-    	cpuView.setImageResource(mCpuGraphic);
-    	
-    	
+    	cpuView.setImageResource(mCpuGraphic);   	
     }
     
     /** called either when activity is created (api 14+) or 

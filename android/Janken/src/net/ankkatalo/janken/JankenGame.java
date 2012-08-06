@@ -35,6 +35,11 @@ public class JankenGame {
 			mHistory = mHistory + item.shortName();		
 	} 
 	
+	/**
+	 * Decides what to use as a response. Works by trying to guess the best
+	 * response based on player's previous activities.
+	 * 
+	 * */
 	public JankenItem selectResponse() {
 		
 		// used if we need to pick random response
@@ -114,6 +119,12 @@ public class JankenGame {
 	}
 
 
+	/**
+	 * Quickly decides which of the player1 and player2 wins. Works by comparing
+	 * the items the players have.
+	 * 
+	 * @return player1 or player2 if either of them wins or null if it's a tie
+	 * */
 	public JankenPlayer selectWinner(JankenPlayer player1, JankenPlayer player2) {		
 		if (player1.item().beats(player2.item()) == WinType.BEATS) {
 			return player1;
