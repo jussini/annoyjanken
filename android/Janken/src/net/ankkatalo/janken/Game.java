@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class JankenGame {
+public class Game {
 
 	// sample space, what different symbols players choose from
-	private List<JankenItem> mSampleSpace = new ArrayList<JankenItem>();
+	private List<Item> mSampleSpace = new ArrayList<Item>();
 	
 	// size of the window cpu player should use when determining user tendensies
 	private int mWindowSize = 5;
@@ -24,14 +24,14 @@ public class JankenGame {
 	public enum WinType {BEATS, LOSES, TIE}
 	
 	
-	public JankenGame() {
-		mSampleSpace.add(new JankenItem.RockItem());
-		mSampleSpace.add(new JankenItem.PaperItem());
-		mSampleSpace.add(new JankenItem.ScissorsItem());
+	public Game() {
+		mSampleSpace.add(new Item.RockItem());
+		mSampleSpace.add(new Item.PaperItem());
+		mSampleSpace.add(new Item.ScissorsItem());
 	}
 
 
-	public void updateHistory(JankenItem item) {
+	public void updateHistory(Item item) {
 			mHistory = mHistory + item.shortName();		
 	} 
 	
@@ -40,7 +40,7 @@ public class JankenGame {
 	 * response based on player's previous activities.
 	 * 
 	 * */
-	public JankenItem selectResponse() {
+	public Item selectResponse() {
 		
 		// used if we need to pick random response
 		Random random = new Random();
@@ -85,16 +85,16 @@ public class JankenGame {
 	    }
 	    
 	    // by default assume user will give rock, so response with paper...
-	    JankenItem response = new JankenItem.PaperItem();
+	    Item response = new Item.PaperItem();
 	    int maxFreq = freqRock;
 	    // ... but if the most probable is paper, response with scissors...
 	    if (freqPaper > maxFreq) {
 	    	maxFreq = freqPaper;
-	    	response = new JankenItem.ScissorsItem();	    	
+	    	response = new Item.ScissorsItem();	    	
 	    }
 	    // and lastly, if the most probable item is scissors, response with rock
 		if (freqScissors > maxFreq) {
-			response = new JankenItem.RockItem();
+			response = new Item.RockItem();
     	}
 	    
 	    return response;		
@@ -125,7 +125,7 @@ public class JankenGame {
 	 * 
 	 * @return player1 or player2 if either of them wins or null if it's a tie
 	 * */
-	public JankenPlayer selectWinner(JankenPlayer player1, JankenPlayer player2) {		
+	public Player selectWinner(Player player1, Player player2) {		
 		if (player1.item().beats(player2.item()) == WinType.BEATS) {
 			return player1;
 		}

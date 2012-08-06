@@ -13,10 +13,10 @@ import android.widget.TextView;
 public class JankenActivity extends Activity {
 	
 	/** Game object responsible of selecting response and picking the winner */
-	private static JankenGame mGame = new JankenGame();
+	private static Game mGame = new Game();
 	
 	/** to keep count of wins and losses*/
-	private static JankenStats mStats = new JankenStats();
+	private static Stats mStats = new Stats();
 	
 	/** Text that will be always shown on the R.id.textView, should only be
 	 * changed using updateJankenText(String text) */
@@ -84,20 +84,20 @@ public class JankenActivity extends Activity {
     
     
     public void onRockClicked(View view) {
-    	onClicked(new JankenItem.RockItem(), view);
+    	onClicked(new Item.RockItem(), view);
     }
     
     public void onPaperClicked(View view) {
-    	onClicked(new JankenItem.PaperItem(), view);
+    	onClicked(new Item.PaperItem(), view);
     }
     
     public void onScissorsClicked(View view) {
-    	onClicked(new JankenItem.ScissorsItem(), view);
+    	onClicked(new Item.ScissorsItem(), view);
     }
     
-    private void onClicked(JankenItem item, View view) {
+    private void onClicked(Item item, View view) {
     	// get the response first
-    	JankenItem response = mGame.selectResponse();
+    	Item response = mGame.selectResponse();
     	
     	// update history
     	mGame.updateHistory(item);
@@ -105,9 +105,9 @@ public class JankenActivity extends Activity {
     	// update freqs
     	mGame.updateFreqs();
     	
-    	JankenPlayer player = new JankenPlayer("Player 1", item);
-    	JankenPlayer cpu    = new JankenPlayer("CPU", response);
-    	JankenPlayer winner = mGame.selectWinner(player, cpu);
+    	Player player = new Player("Player 1", item);
+    	Player cpu    = new Player("CPU", response);
+    	Player winner = mGame.selectWinner(player, cpu);
     	
     	// update correct graphics
     	int playerResource = getGraphics(player, cpu);
@@ -157,9 +157,9 @@ public class JankenActivity extends Activity {
     /**
      * returns the correct graphic resource for player1.
      * */
-    private int getGraphics(JankenPlayer player1, JankenPlayer player2) {
+    private int getGraphics(Player player1, Player player2) {
 
-    	JankenPlayer winner = mGame.selectWinner(player1, player2);
+    	Player winner = mGame.selectWinner(player1, player2);
     	    	
     	if (winner == null) {
     		if (player1.item().shortName().equals("R")) {

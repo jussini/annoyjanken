@@ -1,20 +1,20 @@
 package net.ankkatalo.janken;
 
-public class JankenPlayer {
+public class Player {
 
-	private JankenItem mItem;
+	private Item mItem;
 	private String mName;
 	
-	public JankenPlayer(String name, JankenItem item) {
+	public Player(String name, Item item) {
 		mItem = item;
 		setName(name);
 	}
 	
-	public void setItem(JankenItem item) {
+	public void setItem(Item item) {
 		mItem = item;
 	}
 	
-	public JankenItem item() {
+	public Item item() {
 		return mItem;
 	}
 

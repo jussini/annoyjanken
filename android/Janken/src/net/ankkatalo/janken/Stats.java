@@ -1,6 +1,6 @@
 package net.ankkatalo.janken;
 
-public class JankenStats {
+public class Stats {
 
 	// game statistics
 	private int mCPUWins = 0;

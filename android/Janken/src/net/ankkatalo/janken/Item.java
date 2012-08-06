@@ -1,12 +1,12 @@
 package net.ankkatalo.janken;
 
-public abstract class JankenItem {
+public abstract class Item {
 	private String mName;
 	private String mShortName;
 	
 	public enum ItemType {ROCK, PAPER, SCISSORS};
 	
-	public JankenItem (String name, String shortName) {
+	public Item (String name, String shortName) {
 		mName = name;
 		mShortName = shortName;
 	}
@@ -30,53 +30,53 @@ public abstract class JankenItem {
 	 * @return JankenGame.WinType that tells whether this item BEATS, LOSES  or 
 	 *         TIEs with the other
 	 * */
-	public abstract JankenGame.WinType beats(JankenItem other);
+	public abstract Game.WinType beats(Item other);
 	
 	
-	public static class RockItem extends JankenItem {		
+	public static class RockItem extends Item {		
 		public RockItem() {
 			super("Rock", "R");
 		}
 		
-		public JankenGame.WinType beats(JankenItem other) {
-			if (other.getClass() == JankenItem.ScissorsItem.class) {
-				return JankenGame.WinType.BEATS;
+		public Game.WinType beats(Item other) {
+			if (other.getClass() == Item.ScissorsItem.class) {
+				return Game.WinType.BEATS;
 			} else if (other.getClass() == this.getClass()) {
-				return JankenGame.WinType.TIE;
+				return Game.WinType.TIE;
 			}
-			return JankenGame.WinType.LOSES;
+			return Game.WinType.LOSES;
 		}
 	}
 	
-	public static class PaperItem extends JankenItem {
+	public static class PaperItem extends Item {
 		
 		public PaperItem() {
 			super("Paper", "P");
 		}
 		
-		public JankenGame.WinType beats(JankenItem other) {
-			if (other.getClass() == JankenItem.RockItem.class) {
-				return JankenGame.WinType.BEATS;
+		public Game.WinType beats(Item other) {
+			if (other.getClass() == Item.RockItem.class) {
+				return Game.WinType.BEATS;
 			} else if (other.getClass() == this.getClass()) {
-				return JankenGame.WinType.TIE;
+				return Game.WinType.TIE;
 			}
-			return JankenGame.WinType.LOSES;
+			return Game.WinType.LOSES;
 		}
 	}
 	
-	public static class ScissorsItem extends JankenItem {
+	public static class ScissorsItem extends Item {
 		
 		public ScissorsItem() {
 			super("Scissors", "S");
 		}
 		
-		public JankenGame.WinType beats(JankenItem other) {
-			if (other.getClass() == JankenItem.PaperItem.class) {
-				return JankenGame.WinType.BEATS;
+		public Game.WinType beats(Item other) {
+			if (other.getClass() == Item.PaperItem.class) {
+				return Game.WinType.BEATS;
 			} else if (other.getClass() == this.getClass()) {
-				return JankenGame.WinType.TIE;
+				return Game.WinType.TIE;
 			}
-			return JankenGame.WinType.LOSES;
+			return Game.WinType.LOSES;
 		}
 	}
 }
