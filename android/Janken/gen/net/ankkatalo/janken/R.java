@@ -21,6 +21,7 @@ public final class R {
         public static final int scissors=0x7f020007;
         public static final int scissors_lose=0x7f020008;
         public static final int scissors_win=0x7f020009;
+        public static final int unknown=0x7f02000a;
     }
     public static final class id {
         public static final int clearHistoryItem=0x7f060007;

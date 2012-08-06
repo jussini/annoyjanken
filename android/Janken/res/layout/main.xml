@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/paper_lose" />
+            android:src="@drawable/unknown" />
 
         <TextView
             android:id="@+id/textView1"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/rock_win" />
+            android:src="@drawable/unknown" />
     </LinearLayout>
 
     <LinearLayout

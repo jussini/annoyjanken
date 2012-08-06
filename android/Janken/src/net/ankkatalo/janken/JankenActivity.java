@@ -22,7 +22,8 @@ public class JankenActivity extends Activity {
 	 * changed using updateJankenText(String text) */
 	private static String mJankenText = "Let's play!";
 	
-	
+	private static int mPlayerGraphic = R.drawable.unknown;
+	private static int mCpuGraphic = R.drawable.unknown;
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,7 +48,16 @@ public class JankenActivity extends Activity {
     	
     	int ties = prefs.getInt("Ties", 0);
     	mStats.setTies(ties);
-                
+        
+    	mPlayerGraphic = prefs.getInt("PlayerGraphic", R.drawable.unknown);    	
+    	ImageView playerView = (ImageView) findViewById(R.id.playerImageView);    	    	
+    	playerView.setImageResource(mPlayerGraphic);
+
+    	mCpuGraphic = prefs.getInt("CpuGraphic", R.drawable.unknown);    	
+    	ImageView cpuView = (ImageView) findViewById(R.id.cpuImageView);
+    	cpuView.setImageResource(mCpuGraphic);
+    	
+    	
     }
     
     /** called either when activity is created (api 14+) or 
@@ -69,6 +79,8 @@ public class JankenActivity extends Activity {
   	  	ed.putInt("CpuWins", mStats.CPUWins());
   	  	ed.putInt("PlayerWins", mStats.playerWins());
   	  	ed.putInt("Ties", mStats.ties());
+  	  	ed.putInt("PlayerGraphic", mPlayerGraphic);
+  	  	ed.putInt("CpuGraphic", mCpuGraphic);
         ed.commit();
     }
     
@@ -105,8 +117,10 @@ public class JankenActivity extends Activity {
     	
     	ImageView playerView = (ImageView) findViewById(R.id.playerImageView);
     	playerView.setImageResource(playerResource);
+    	mPlayerGraphic = playerResource;
     	ImageView cpuView = (ImageView) findViewById(R.id.cpuImageView);
     	cpuView.setImageResource(cpuResource);
+    	mCpuGraphic = cpuResource;
     	
     	if (winner == null) {
     		mStats.addTies();    	    		
