@@ -34,8 +34,8 @@ public class JankenActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         
     	String history = prefs.getString("History", "");
-    	mGame.setHistory(history);
-    	mGame.rebuildFreqs();
+    	mGame.setHistory(history, "");
+    	mGame.initStrategies();
     	
     	String jankenText = prefs.getString("GameText", "Let's play!");
     	updateJankenText (jankenText);
@@ -72,7 +72,7 @@ public class JankenActivity extends Activity {
         super.onPause();
         
         SharedPreferences.Editor ed = getPreferences(MODE_PRIVATE).edit();
-  	  	ed.putString("History", mGame.history());
+  	  	ed.putString("History", mGame.playerHistory());
   	  	ed.putString("GameText", mJankenText);
   	  	ed.putInt("CpuWins", mStats.CPUWins());
   	  	ed.putInt("PlayerWins", mStats.playerWins());
@@ -99,12 +99,10 @@ public class JankenActivity extends Activity {
     	// get the response first
     	Item response = mGame.selectResponse();
     	
-    	// update history
-    	mGame.updateHistory(item);
-    	
-    	// update freqs
-    	mGame.updateFreqs();
-    	
+    	// update strategy based on player selection and the response from cpu
+    	mGame.updateStrategies(item, response);    
+
+    	// pick the winner
     	Player player = new Player("Player 1", item);
     	Player cpu    = new Player("CPU", response);
     	Player winner = mGame.selectWinner(player, cpu);
