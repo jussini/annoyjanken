@@ -161,11 +161,11 @@ public class JankenActivity extends Activity {
     	    	
     	if (winner == null) {
     		if (player1.item().shortName().equals("R")) {
-    			return R.drawable.rock;
+    			return R.drawable.rock_tie;
     		} else if(player1.item().shortName().equals("P")) {
-    			return R.drawable.paper;
-    		} else {
-    			return R.drawable.scissors;
+    			return R.drawable.paper_tie;
+    		} else {    			
+    			return R.drawable.scissors_tie;
     		}
     	} 
     	else if (winner == player1 ) {
