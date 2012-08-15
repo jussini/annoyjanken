@@ -51,7 +51,7 @@
             android:onClick="onRockClicked"
             android:padding="1dp"
             android:scaleType="centerInside"
-            android:src="@drawable/rock" />
+            android:src="@drawable/rock_selector" />
 
         <ImageButton
             android:id="@+id/paperButton"
@@ -64,7 +64,7 @@
             android:onClick="onPaperClicked"
             android:padding="1dp"
             android:scaleType="centerInside"
-            android:src="@drawable/paper" />
+            android:src="@drawable/paper_selector" />
 
         <ImageButton
             android:id="@+id/scissorsButton"
@@ -77,7 +77,7 @@
             android:onClick="onScissorsClicked"
             android:padding="1dp"
             android:scaleType="centerInside"
-            android:src="@drawable/scissors" />
+            android:src="@drawable/scissors_selector" />
 
     </LinearLayout>
 
