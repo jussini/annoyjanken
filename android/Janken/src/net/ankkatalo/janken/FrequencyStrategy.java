@@ -24,15 +24,10 @@ public class FrequencyStrategy extends Strategy {
 	
 	@Override
 	public Item selectResponse() {
-		// used if we need to pick random response
-		Random random = new Random();
 		
-		// on first rounds pick the response just randomly as there isn't enough
-		// history data to make statistical choice
+		// on first rounds, we just can't pick a response
 		if (mPlayerHistory.length() < mWindowSize) {
-			System.out.println("Short history");
-			int index = random.nextInt(mSampleSpace.size());
-			return mSampleSpace.get(index);
+			return null;
 		}
 		
 		// pick the last mWindowSize - 1 items from the history
@@ -59,11 +54,10 @@ public class FrequencyStrategy extends Strategy {
 	    	freqScissors = mFreqMap.get(scissorsFeature);
 	    }
 	    
-	    // if there is no statistic difference, pick response randomly
+	    // if there is no statistic difference, don't return anything
 	    if (freqRock == freqPaper && freqPaper == freqScissors) {
-	    	System.out.println(String.format("Equal chance %d %d %d", freqRock, freqPaper, freqScissors));
-	    	int index = random.nextInt(mSampleSpace.size());
-	    	return mSampleSpace.get(index);
+	    	//System.out.println(String.format("Equal chance %d %d %d", freqRock, freqPaper, freqScissors));
+	    	return null;
 	    }
 	    
 	    // by default assume user will give rock, so response with paper...
@@ -92,7 +86,7 @@ public class FrequencyStrategy extends Strategy {
 		
 		// otherwise, update freqs
 		String feature = mPlayerHistory.substring(mPlayerHistory.length() - mWindowSize);
-		System.out.println("Updating freqs with " + feature + " from " + mPlayerHistory);
+		//System.out.println("Updating freqs with " + feature + " from " + mPlayerHistory);
 		if (mFreqMap.containsKey(feature)) {
 			mFreqMap.put(feature, mFreqMap.get(feature)+1);
 		} else {
@@ -134,4 +128,9 @@ public class FrequencyStrategy extends Strategy {
 		
 	}
 
+	@Override
+	public Certainty certainty() {
+		return Certainty.GUESS;
+	}
+	
 }

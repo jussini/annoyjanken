@@ -29,8 +29,13 @@ public class RandomStrategy extends Strategy {
 
 	@Override
 	public void updateStrategy(Item playerItem, Item cpuItem) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
+	@Override
+	public Certainty certainty() {
+		return Certainty.GUESS;
+	}
+	
 }
+

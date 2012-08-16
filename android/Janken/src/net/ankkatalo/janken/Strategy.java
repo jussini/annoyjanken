@@ -5,6 +5,15 @@ import java.util.List;
 
 public abstract class Strategy {
 
+	/**
+	 * level of certainty a strategy thinks it can guess correctly
+	 * GUESS   - strategy can pick a response but it thinks its very close to random
+	 * SOME    - strategy can pick a response thats' probably slightly better
+	 *           than a random guess
+	 * VERY    - strategy can pick a response it's quite certain to be correct
+	 * */
+	public enum Certainty {GUESS, SOME, VERY}
+	
 	// sample space, what different symbols players choose from
 	protected List<Item> mSampleSpace = new ArrayList<Item>();
 	
@@ -12,11 +21,12 @@ public abstract class Strategy {
 	protected static String mPlayerHistory = "";
 	// history of cpu selections
 	protected static String mCpuHistory = "";
-
 	
 	public abstract void initStrategy();		
 	
 	public abstract Item selectResponse();
+	
+	public abstract Certainty certainty();
 	
 	public Strategy() {
 		mSampleSpace.add(new Item.RockItem());

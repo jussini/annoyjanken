@@ -1,7 +1,6 @@
 package net.ankkatalo.janken;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -12,14 +11,25 @@ public class Game {
 	
 	public enum WinType {BEATS, LOSES, TIE}
 	
+	// init number of losses to 2 to force a new strategy to be picked on 
+	// first round
+	private int mCurrentStrategyLossStreak = 2; 
+	private int mCurrentStrategyIndex = 0;
 	/**  
 	 * constructor
 	 * */
 	public Game() {
 		mStrategies.add(new FrequencyStrategy());
+		mStrategies.add(new RandomStrategy());
+		mStrategies.add(new PreviousBeaterStrategy());
 	}
 
 	public void updateStrategies(Item playerItem, Item cpuItem) {
+		
+		if (playerItem.beats(cpuItem) == WinType.BEATS) {
+			mCurrentStrategyLossStreak++;
+		}
+		
 		for (Strategy s : mStrategies) {
 			s.updateStrategy(playerItem, cpuItem);
 		}
@@ -30,9 +40,34 @@ public class Game {
 	 * response based on player's previous activities.
 	 * 
 	 * */
-	public Item selectResponse() {
-		// TODO: pick the response from the best strategy
-		return mStrategies.get(0).selectResponse();		
+	public Item selectResponse() {		
+		/*
+		 * plan:
+		 * 	 - pick the first strategy randomly
+		 *   - pick a response. if it returns null, roundrobin to next strategy
+		 *     which becomes the current strategy. At some point there will be
+		 *     a strategy that's guaranteed to return non-null (random strategy)
+		 *   - keep using the current strategy until it has failed twice a row
+		 *     in which case pick a new strategy randomly
+		 * */
+		Random random = new Random();
+		
+		if (mCurrentStrategyLossStreak >= 2) {
+			System.out.println(String.format("loss streak %d, swich strategy", mCurrentStrategyLossStreak));
+			mCurrentStrategyIndex = random.nextInt(mStrategies.size());
+			mCurrentStrategyLossStreak = 0;
+		}
+		
+		System.out.println(String.format("Using strategy %d", mCurrentStrategyIndex));
+		Item response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
+		
+		while (response == null) {
+			System.out.println(String.format("Response from %d was null", mCurrentStrategyIndex));
+			mCurrentStrategyIndex = (mCurrentStrategyIndex + 1) % mStrategies.size();
+			response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
+		}
+		
+		return response;		
 	}
 	
 	
