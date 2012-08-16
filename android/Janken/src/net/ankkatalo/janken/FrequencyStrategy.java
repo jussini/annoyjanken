@@ -132,5 +132,10 @@ public class FrequencyStrategy extends Strategy {
 	public Certainty certainty() {
 		return Certainty.GUESS;
 	}
+
+	@Override
+	public String name() {
+		return "Frequency";
+	}
 	
 }

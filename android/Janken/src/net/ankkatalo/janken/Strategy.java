@@ -28,6 +28,8 @@ public abstract class Strategy {
 	
 	public abstract Certainty certainty();
 	
+	public abstract String name();
+	
 	public Strategy() {
 		mSampleSpace.add(new Item.RockItem());
 		mSampleSpace.add(new Item.PaperItem());

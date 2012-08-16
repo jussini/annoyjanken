@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import net.ankkatalo.janken.Strategy.Certainty;
+
 public class Game {
 	
 	
@@ -43,27 +45,61 @@ public class Game {
 	public Item selectResponse() {		
 		/*
 		 * plan:
-		 * 	 - pick the first strategy randomly
-		 *   - pick a response. if it returns null, roundrobin to next strategy
-		 *     which becomes the current strategy. At some point there will be
+		 *   - ask all strategies for their certainties. if any has better than
+		 *     guess, use it
+		 * 	 - otherwise use "current strategy". if there isn't one, pick it 
+		 *     randomly
+		 *   - pick a response. if it returns null, roundrobin to next
+		 *     strategy which becomes the current strategy. At some point there will be
 		 *     a strategy that's guaranteed to return non-null (random strategy)
 		 *   - keep using the current strategy until it has failed twice a row
 		 *     in which case pick a new strategy randomly
+		 *     
+		 *     
+		 * another plan:
+		 *   - 
+		 *        
+		 *     
 		 * */
 		Random random = new Random();
 		
 		if (mCurrentStrategyLossStreak >= 2) {
 			System.out.println(String.format("loss streak %d, swich strategy", mCurrentStrategyLossStreak));
-			mCurrentStrategyIndex = random.nextInt(mStrategies.size());
+			
+			boolean certain = false;
+			for (int i = 0; i < mStrategies.size(); ++i) {
+				if (mStrategies.get(i).certainty().compareTo(Certainty.GUESS) > 0 ) {
+					mCurrentStrategyIndex = i;
+					certain = true;
+					break;
+				}
+			}
+			if (!certain) {
+				mCurrentStrategyIndex = random.nextInt(mStrategies.size());
+			} 			
 			mCurrentStrategyLossStreak = 0;
 		}
 		
-		System.out.println(String.format("Using strategy %d", mCurrentStrategyIndex));
-		Item response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
+		Strategy s = mStrategies.get(mCurrentStrategyIndex);
+		System.out.println(String.format("Using strategy %s", s.name()));
+		Item response = s.selectResponse();
 		
 		while (response == null) {
-			System.out.println(String.format("Response from %d was null", mCurrentStrategyIndex));
-			mCurrentStrategyIndex = (mCurrentStrategyIndex + 1) % mStrategies.size();
+			System.out.println(String.format("Response from %s was null", s.name()));
+			
+			boolean certain = false;
+			for (int i = 0; i < mStrategies.size(); ++i) {
+				if (mStrategies.get(i).certainty().compareTo(Certainty.GUESS) > 0 ) {
+					mCurrentStrategyIndex = i;
+					certain = true;
+					break;
+				}
+			}
+			if (!certain) {
+				mCurrentStrategyIndex = (mCurrentStrategyIndex + 1) % mStrategies.size();
+			} 
+			
+			s = mStrategies.get(mCurrentStrategyIndex);
 			response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
 		}
 		

@@ -36,6 +36,11 @@ public class RandomStrategy extends Strategy {
 	public Certainty certainty() {
 		return Certainty.GUESS;
 	}
+
+	@Override
+	public String name() {
+		return "Random";
+	}
 	
 }
 
