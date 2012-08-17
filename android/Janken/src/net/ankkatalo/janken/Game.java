@@ -17,6 +17,7 @@ public class Game {
 	// first round
 	private int mCurrentStrategyLossStreak = 2; 
 	private int mCurrentStrategyIndex = 0;
+	private int mRoundNumber = 1;
 	/**  
 	 * constructor
 	 * */
@@ -65,13 +66,65 @@ public class Game {
 		 * another plan:
 		 *   - every 3rd round, ask from strategies for certainty
 		 *     -> if any has, this will be the current strategy for the next
-		 *        2 rounds
+		 *        2 rounds unless it has just failed for the last 2 rounds
 		 *     -> otherwise, pick a strategy by random   
 		 *   - if a strategy returns null, roundrobin to next strategy until
 		 *     there will be non-null (from random strategy)  
 		 * */
 		Random random = new Random();
+		int nextIndex = -1;
 		
+		// ask certainty for every 3 rounds
+		if (mRoundNumber  % 3 == 0) {
+			
+			// first, group strategies by their certainties
+			List<Integer> guessing = new ArrayList<Integer>();
+			List<Integer> some = new ArrayList<Integer>(); 
+			List<Integer> very = new ArrayList<Integer>();
+			for (int i = 0; i < mStrategies.size(); ++i) {
+				Certainty cert = mStrategies.get(i).certainty();
+				if (cert == Certainty.SOME) {
+					some.add(i);
+				} else if (cert == Certainty.VERY) {
+					very.add(i);
+				} else {
+					guessing.add(i);
+				}
+			}
+								
+			// first check the very certains
+			while (very.size() > 0) {
+				nextIndex = very.remove(0);
+				// if loss streak is on, avoid selecting same strategy even if
+				// it has a good certainty
+				if (mCurrentStrategyLossStreak >= 2 && 
+				    nextIndex == mCurrentStrategyIndex) {
+					nextIndex = -1;
+				} 				
+			}
+			
+			// then the same procedure to group with some certainty
+			while (nextIndex < 0 && some.size() > 0) {
+				nextIndex = some.remove(0);
+				if  (mCurrentStrategyLossStreak >= 2 && 
+					 nextIndex == mCurrentStrategyIndex ) {
+					nextIndex = -1;
+				}
+			}
+			
+			// then, if we found a strategy with any certainty, use that
+			if (nextIndex >= 0) {
+				mCurrentStrategyIndex = nextIndex;
+			}
+			
+		}
+		
+		// no need to change strategy if we have already picked a new one
+		if (mCurrentStrategyLossStreak >= 2 && nextIndex != -1) {
+			mCurrentStrategyLossStreak = 0;
+		}
+		
+		// if the loss streak is on, force changing the strategy
 		if (mCurrentStrategyLossStreak >= 2) {
 			System.out.println(String.format("loss streak %d, swich strategy", mCurrentStrategyLossStreak));
 			
@@ -89,10 +142,13 @@ public class Game {
 			mCurrentStrategyLossStreak = 0;
 		}
 		
+		
+		// get initial response
 		Strategy s = mStrategies.get(mCurrentStrategyIndex);
 		System.out.println(String.format("Using strategy %s", s.name()));
 		Item response = s.selectResponse();
 		
+		// ...and if it's not available, keep trying until we get one
 		while (response == null) {
 			System.out.println(String.format("Response from %s was null", s.name()));
 			
