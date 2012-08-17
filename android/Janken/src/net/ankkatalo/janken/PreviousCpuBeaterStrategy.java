@@ -1,6 +1,6 @@
 package net.ankkatalo.janken;
 
-public class PreviousBeaterStrategy extends Strategy {
+public class PreviousCpuBeaterStrategy extends Strategy {
 
 	@Override
 	public void initStrategy() {
