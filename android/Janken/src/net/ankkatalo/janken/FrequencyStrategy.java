@@ -1,5 +1,6 @@
 package net.ankkatalo.janken;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class FrequencyStrategy extends Strategy {
@@ -12,6 +13,11 @@ public class FrequencyStrategy extends Strategy {
 	// "w1w2w3..w_windosize"
 	private HashMap<String, Integer> mFreqMap = new HashMap<String, Integer> ();
 	
+	// we use this to determine if the user has been playing very quickly, thus
+	// there is a great chance that FrequencyStrategy will predict correctly
+	private Date mLastUpdate = new Date();
+	
+	
 	public FrequencyStrategy() {
 		super();
 	}
@@ -19,6 +25,8 @@ public class FrequencyStrategy extends Strategy {
 	@Override
 	public void initStrategy() {
 		rebuildFreqs();
+		
+		mLastUpdate = new Date();
 	}
 	
 	@Override
@@ -128,6 +136,15 @@ public class FrequencyStrategy extends Strategy {
 
 	@Override
 	public Certainty certainty() {
+		
+		Date now = new Date();
+		long diff = now.getTime() - mLastUpdate.getTime();
+		if (diff < 500) {
+			return Certainty.VERY;
+		} else if (diff < 1000) {
+			return Certainty.SOME;
+		}
+		
 		return Certainty.GUESS;
 	}
 
