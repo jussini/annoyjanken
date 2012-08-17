@@ -23,7 +23,8 @@ public class Game {
 	public Game() {
 		mStrategies.add(new FrequencyStrategy());
 		mStrategies.add(new RandomStrategy());
-		mStrategies.add(new PreviousBeaterStrategy());
+		mStrategies.add(new PreviousCpuBeaterStrategy());
+		mStrategies.add(new PreviousPlayerBeaterStrategy());
 	}
 
 	public void updateStrategies(Item playerItem, Item cpuItem) {
@@ -32,6 +33,11 @@ public class Game {
 			mCurrentStrategyLossStreak++;
 		}
 		
+		// update player and cpu histories
+		Strategy.setPlayerHistory(Strategy.playerHistory()  + playerItem.shortName());
+		Strategy.setCpuHistory(Strategy.cpuHistory()  + cpuItem.shortName());		
+		
+		// run individual strategy updates
 		for (Strategy s : mStrategies) {
 			s.updateStrategy(playerItem, cpuItem);
 		}
@@ -57,9 +63,12 @@ public class Game {
 		 *     
 		 *     
 		 * another plan:
-		 *   - 
-		 *        
-		 *     
+		 *   - every 3rd round, ask from strategies for certainty
+		 *     -> if any has, this will be the current strategy for the next
+		 *        2 rounds
+		 *     -> otherwise, pick a strategy by random   
+		 *   - if a strategy returns null, roundrobin to next strategy until
+		 *     there will be non-null (from random strategy)  
 		 * */
 		Random random = new Random();
 		

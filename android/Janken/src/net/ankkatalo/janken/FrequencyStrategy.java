@@ -1,7 +1,6 @@
 package net.ankkatalo.janken;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class FrequencyStrategy extends Strategy {
 
@@ -96,7 +95,6 @@ public class FrequencyStrategy extends Strategy {
 	
 	@Override
 	public void updateStrategy(Item playerItem, Item cpuItem) {
-		mPlayerHistory = mPlayerHistory + playerItem.shortName();
 		updateFreqs();
 	}
 	

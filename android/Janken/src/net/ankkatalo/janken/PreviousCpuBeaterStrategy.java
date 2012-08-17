@@ -38,6 +38,7 @@ public class PreviousCpuBeaterStrategy extends Strategy {
 		
 		// yes, we should never get here, but just in case history has something
 		// surprising...
+		System.out.println("PreviousCpuBeater: previousCpu " + previousCpu + ", wtf?");
 		return null;
 	}
 
@@ -100,7 +101,7 @@ public class PreviousCpuBeaterStrategy extends Strategy {
 
 	@Override
 	public String name() {
-		return "PreviousBeater";
+		return "PreviousCpuBeater";
 	}
 
 	
