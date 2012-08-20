@@ -20,6 +20,7 @@ public class PreviousPlayerBeaterStrategy extends Strategy {
 		} 
 		
 		String previous = mPlayerHistory.substring(mPlayerHistory.length() -1 );
+				
 		// for rock, assume player picks paper, so response with scissors
 		if (previous.equalsIgnoreCase("R")) {
 			return new Item.ScissorsItem();

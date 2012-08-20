@@ -63,7 +63,6 @@ public class FrequencyStrategy extends Strategy {
 	    
 	    // if there is no statistic difference, don't return anything
 	    if (freqRock == freqPaper && freqPaper == freqScissors) {
-	    	//System.out.println(String.format("Equal chance %d %d %d", freqRock, freqPaper, freqScissors));
 	    	return null;
 	    }
 	    
@@ -93,7 +92,6 @@ public class FrequencyStrategy extends Strategy {
 		
 		// otherwise, update freqs
 		String feature = mPlayerHistory.substring(mPlayerHistory.length() - mWindowSize);
-		//System.out.println("Updating freqs with " + feature + " from " + mPlayerHistory);
 		if (mFreqMap.containsKey(feature)) {
 			mFreqMap.put(feature, mFreqMap.get(feature)+1);
 		} else {

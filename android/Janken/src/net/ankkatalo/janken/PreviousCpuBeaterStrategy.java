@@ -86,7 +86,6 @@ public class PreviousCpuBeaterStrategy extends Strategy {
 		// if the player string would counter previous selections, then 
 		// we might have some certainty of player strategy
 		if (sb.toString().equalsIgnoreCase(playerPart)) {
-			System.out.println("PreviousBeater has some certainty");
 			return Certainty.VERY;
 		}
 		

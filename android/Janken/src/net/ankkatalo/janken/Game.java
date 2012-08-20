@@ -126,7 +126,6 @@ public class Game {
 		
 		// if the loss streak is on, force changing the strategy
 		if (mCurrentStrategyLossStreak >= 2) {
-			System.out.println(String.format("loss streak %d, swich strategy", mCurrentStrategyLossStreak));
 			
 			boolean certain = false;
 			for (int i = 0; i < mStrategies.size(); ++i) {
@@ -145,12 +144,10 @@ public class Game {
 		
 		// get initial response
 		Strategy s = mStrategies.get(mCurrentStrategyIndex);
-		System.out.println(String.format("Using strategy %s", s.name()));
 		Item response = s.selectResponse();
 		
 		// ...and if it's not available, keep trying until we get one
 		while (response == null) {
-			System.out.println(String.format("Response from %s was null", s.name()));
 			
 			boolean certain = false;
 			for (int i = 0; i < mStrategies.size(); ++i) {
@@ -168,6 +165,7 @@ public class Game {
 			response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
 		}
 		
+		++mRoundNumber;
 		return response;		
 	}
 	
