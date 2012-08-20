@@ -9,28 +9,62 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1" >
-    
-        <ImageView
-            android:id="@+id/cpuImageView"
-            android:layout_height="wrap_content"
+                  
+        <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_weight="2.5"
-            android:src="@drawable/unknown" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/cpuTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/cputext"
+                android:layout_weight="1" />
+            
+            <ImageView
+                android:id="@+id/cpuImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="3"                
+                android:src="@drawable/unknown" />
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/vstextImage"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:src="@drawable/vstext" />
 
-        <ImageView
-            android:id="@+id/playerImageView"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="fill_parent"
             android:layout_weight="2.5"
-            android:src="@drawable/unknown" />
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/youTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:src="@drawable/youtext"
+                android:layout_weight="1" />
+            
+            <ImageView
+                android:id="@+id/playerImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+
+                android:src="@drawable/unknown" />
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
     <LinearLayout
