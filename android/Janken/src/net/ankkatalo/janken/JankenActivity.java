@@ -1,6 +1,8 @@
 package net.ankkatalo.janken;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,13 +19,11 @@ public class JankenActivity extends Activity {
 	
 	/** to keep count of wins and losses*/
 	private static Stats mStats = new Stats();
-	
-	/** Text that will be always shown on the R.id.textView, should only be
-	 * changed using updateJankenText(String text) */
-	private static String mJankenText = "Let's play!";
-	
+		
 	private static int mPlayerGraphic = R.drawable.unknown;
 	private static int mCpuGraphic = R.drawable.unknown;
+	
+	private final int STATSDIALOG = 1;
 	
     /** Called when the activity is first created. */
     @Override
@@ -36,10 +36,7 @@ public class JankenActivity extends Activity {
     	String history = prefs.getString("History", "");
     	mGame.setHistory(history, "");
     	mGame.initStrategies();
-    	
-    	String jankenText = prefs.getString("GameText", "Let's play!");
-    	updateJankenText (jankenText);
-    	    	
+    	    	    	
     	int cpuWins = prefs.getInt("CpuWins",0);
     	mStats.setCPUWins(cpuWins);
     	
@@ -73,7 +70,6 @@ public class JankenActivity extends Activity {
         
         SharedPreferences.Editor ed = getPreferences(MODE_PRIVATE).edit();
   	  	ed.putString("History", mGame.playerHistory());
-  	  	ed.putString("GameText", mJankenText);
   	  	ed.putInt("CpuWins", mStats.CPUWins());
   	  	ed.putInt("PlayerWins", mStats.playerWins());
   	  	ed.putInt("Ties", mStats.ties());
@@ -125,31 +121,8 @@ public class JankenActivity extends Activity {
     		mStats.addPlayerWins();
     	} else if (winner == cpu) {
     		mStats.addCPUWins();
-    	} 
-    	    	
-    	StringBuilder gameTextBuilder = new StringBuilder();
-		gameTextBuilder.append("Player: " + player.item().name());
-		gameTextBuilder.append(" vs CPU: " + cpu.item().name() + ":\n");
-    	if (winner != null) {
-    		gameTextBuilder.append(winner.name() + " Wins!");
-    	} else {
-    		gameTextBuilder.append("It's a tie");
-    	}
-    	
-    	gameTextBuilder.append("\n\n\n\n");
-    	gameTextBuilder.append(String.format("Total Games: %d\n", mStats.totalGames()));
-    	gameTextBuilder.append(String.format("Player Wins: %d (%d%%)\n", 
-    			mStats.playerWins(), 
-    			(int)mStats.playerPercentage()));
-    	gameTextBuilder.append(String.format("CPU Wins: %d (%d%%)\n", 
-    			mStats.CPUWins(), 
-    			(int)mStats.CPUPercentage()));
-    	gameTextBuilder.append(String.format("Ties: %d (%d%%)\n", 
-    			mStats.ties(), 
-    			(int)mStats.tiePercentage()));
-
-    	
-    	updateJankenText(gameTextBuilder.toString());        	
+    	}     
+                	
     }
 
     /**
@@ -199,28 +172,77 @@ public class JankenActivity extends Activity {
             case R.id.clearHistoryItem:
             	clearHistory();
             	return true;
+            case R.id.showStatsDialogItem:
+            	showDialog(STATSDIALOG);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-    
-    public void clearStats() {
+        
+	
+	protected Dialog onCreateDialog (int id, Bundle args) {
+		if (id == STATSDIALOG) {
+			return getStatsDialog();
+		}
+				
+		// what else could we do?
+		return null;
+	}
+
+	protected void onPrepareDialog (int id, Dialog dialog, Bundle args) {
+		if (id == STATSDIALOG) {
+
+			// stats may update between every call of showdialog, so we should
+			// update the dialog text here
+
+	    	TextView text = (TextView) dialog.findViewById(R.id.totalValueField);
+	    	text.setText(String.format("%d", mStats.totalGames()));
+	    	text = (TextView) dialog.findViewById(R.id.playerValueField);
+	    	text.setText(String.format("%d (%d%%)", 
+	    			mStats.playerWins(), 
+	    			(int)mStats.playerPercentage()));
+
+	    	text = (TextView) dialog.findViewById(R.id.cpuValueField);
+	    	text.setText(String.format("%d (%d%%)", 
+	    			mStats.CPUWins(), 
+	    			(int)mStats.CPUPercentage()));
+	    		    	
+	    	text = (TextView) dialog.findViewById(R.id.tiesValueField);
+	    	text.setText(String.format("%d (%d%%)", 
+	    			mStats.ties(), 
+	    			(int)mStats.tiePercentage()));
+	    				
+		}
+	}
+	
+	
+    public Dialog getStatsDialog() {
+    	// weird, docs say we should use getApplicationContext() here, but
+    	// that ends up with BadTokenException O_o
+    	// thanks, stackoverflow, for this hint.
+    	Dialog dialog = new Dialog(this);
+
+    	// title and image won't change between the occasions we show the dialog
+    	// so we can set them here
+    	dialog.setContentView(R.layout.stats_dialog);
+    	dialog.setTitle(R.string.statsString);
+    	ImageView image = (ImageView) dialog.findViewById(R.id.stats_dialog_image);
+    	image.setImageResource(R.drawable.ic_launcher);
+    	
+    	return dialog;
+	}
+
+	public void clearStats() {
     	mStats.clearStats();
-    	updateJankenText("Stats cleared!");    	
+    	// TODO: use a toast
     }
     
     
     public void clearHistory() {
     	mGame.clearHistory();
-    	updateJankenText("History cleared!");  	
+     	// TODO: use a toast
     }
     
-    
-    public void updateJankenText(String text) {
-    	mJankenText = text;
-    	TextView textView = (TextView) findViewById(R.id.textView);
-    	textView.setText(mJankenText);
-    }
 }
 

@@ -5,5 +5,11 @@
     <string name="app_name">Janken</string>
     <string name="clearHistoryString">Clear history</string>
     <string name="clearStatsString">Clear stats</string>
+    <string name="showStatsDialogString">Show Stats</string>
+    <string name="statsString">AnnoyJanken Statistics</string>
+    <string name="totalLabelString">Total games:</string>
+    <string name="playerLabelString">Player wins:</string>
+    <string name="cpuLabelString">Cpu wins:</string>
+    <string name="tieLabelString">Ties:</string>
 
 </resources>

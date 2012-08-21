@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/showStatsDialogItem" 
+        android:title="@string/showStatsDialogString" />
     <item android:id="@+id/clearHistoryItem" 
         android:title="@string/clearHistoryString" />
     <item android:id="@+id/clearStatsItem" 
