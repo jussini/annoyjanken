@@ -1,8 +1,9 @@
 package net.ankkatalo.janken;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class JankenActivity extends Activity {
 	
@@ -23,7 +25,9 @@ public class JankenActivity extends Activity {
 	private static int mPlayerGraphic = R.drawable.unknown;
 	private static int mCpuGraphic = R.drawable.unknown;
 	
-	private final int STATSDIALOG = 1;
+	private final int STATS_DIALOG = 1;
+	private final int CLEAR_HISTORY_ALERT = 2;
+	private final int CLEAR_STATS_ALERT = 3;
 	
     /** Called when the activity is first created. */
     @Override
@@ -173,7 +177,7 @@ public class JankenActivity extends Activity {
             	clearHistory();
             	return true;
             case R.id.showStatsDialogItem:
-            	showDialog(STATSDIALOG);
+            	showDialog(STATS_DIALOG);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -182,16 +186,23 @@ public class JankenActivity extends Activity {
         
 	
 	protected Dialog onCreateDialog (int id, Bundle args) {
-		if (id == STATSDIALOG) {
+		
+		switch(id) {
+		case STATS_DIALOG:
 			return getStatsDialog();
+		case CLEAR_HISTORY_ALERT:
+			return getClearHistoryDialog();
+		case CLEAR_STATS_ALERT:
+			return getClearStatsDialog();
+		default:
+			// what else could we do?
+			return null;
 		}
-				
-		// what else could we do?
-		return null;
+			
 	}
 
 	protected void onPrepareDialog (int id, Dialog dialog, Bundle args) {
-		if (id == STATSDIALOG) {
+		if (id == STATS_DIALOG) {
 
 			// stats may update between every call of showdialog, so we should
 			// update the dialog text here
@@ -212,7 +223,11 @@ public class JankenActivity extends Activity {
 	    	text.setText(String.format("%d (%d%%)", 
 	    			mStats.ties(), 
 	    			(int)mStats.tiePercentage()));
-	    				
+
+	    	text = (TextView) dialog.findViewById(R.id.dataSizeValueField);
+	    	text.setText(String.format("%d games", 
+	    			mGame.playerHistory().length()));
+	    	
 		}
 	}
 	
@@ -233,16 +248,86 @@ public class JankenActivity extends Activity {
     	return dialog;
 	}
 
-	public void clearStats() {
+	
+    public Dialog getClearHistoryDialog() {
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("This will erase all learned data. \nAre you sure you want to do this?")
+    		   .setTitle("Clear History?")
+    	       //.setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                JankenActivity.this.clearHistoryConfirmed();
+    	           }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+    	
+    	AlertDialog alert = builder.create();
+    	
+    	return alert;        
+    }
+
+    
+    public Dialog getClearStatsDialog() {
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("This will erase Wins/Loses statistics. \nAre you sure you want to do this?")
+    		   .setTitle("Clear Stats?")
+    	       //.setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                JankenActivity.this.clearStatsConfirmed();
+    	           }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+    	
+    	AlertDialog alert = builder.create();
+    	
+    	return alert;        
+    }
+    
+	
+    public void clearStats() {
+    	showDialog(CLEAR_STATS_ALERT);
+    }
+    
+	protected void clearStatsConfirmed() {
     	mStats.clearStats();
-    	// TODO: use a toast
+    	
+    	//Context context = getApplicationContext();
+    	CharSequence text = "Win/Lose stats cleared!";
+    	int duration = Toast.LENGTH_SHORT;
+
+    	Toast toast = Toast.makeText(this, text, duration);
+    	toast.show();    
     }
-    
-    
-    public void clearHistory() {
-    	mGame.clearHistory();
-     	// TODO: use a toast
+
+	
+	public void clearHistory() {    	
+    	showDialog(CLEAR_HISTORY_ALERT);    	    
     }
+
+	
+	protected void clearHistoryConfirmed() {
+		
+	   	mGame.clearHistory();
+    	//Context context = getApplicationContext();
+    	CharSequence text = "Learned data cleared!";
+    	int duration = Toast.LENGTH_SHORT;
+
+    	Toast toast = Toast.makeText(this, text, duration);
+    	toast.show();
+
+		
+	}
     
 }
 

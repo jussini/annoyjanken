@@ -11,5 +11,6 @@
     <string name="playerLabelString">Player wins:</string>
     <string name="cpuLabelString">Cpu wins:</string>
     <string name="tieLabelString">Ties:</string>
+    <string name="dataSizeLabelString">Learning history size:</string>
 
 </resources>
