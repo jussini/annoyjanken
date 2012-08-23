@@ -89,7 +89,7 @@ public class FrequencyStrategy extends Strategy {
 		if (mPlayerHistory.length() < mWindowSize) {
 			return; 
 		}
-		
+					
 		// otherwise, update freqs
 		String feature = mPlayerHistory.substring(mPlayerHistory.length() - mWindowSize);
 		if (mFreqMap.containsKey(feature)) {
@@ -135,13 +135,16 @@ public class FrequencyStrategy extends Strategy {
 	@Override
 	public Certainty certainty() {
 		
+		
+		Item response = selectResponse();
+		
 		Date now = new Date();
 		long diff = now.getTime() - mLastUpdate.getTime();
-		if (diff < 500) {
+		if (response != null && diff < 500) {
 			return Certainty.VERY;
-		} else if (diff < 1000) {
+		} else if (response != null) {
 			return Certainty.SOME;
-		}
+		} 
 		
 		return Certainty.GUESS;
 	}
