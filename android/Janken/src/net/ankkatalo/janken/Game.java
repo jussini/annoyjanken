@@ -17,7 +17,7 @@ public class Game {
 	// first round
 	private int mCurrentStrategyLossStreak = 2; 
 	private int mCurrentStrategyIndex = 0;
-	private int mRoundNumber = 1;
+	
 	/**  
 	 * constructor
 	 * */
@@ -165,7 +165,6 @@ public class Game {
 			response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
 		}
 		
-		++mRoundNumber;
 		return response;		
 	}
 	
