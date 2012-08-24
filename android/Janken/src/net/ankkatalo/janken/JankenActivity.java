@@ -238,12 +238,11 @@ public class JankenActivity extends Activity {
     	// thanks, stackoverflow, for this hint.
     	Dialog dialog = new Dialog(this);
 
-    	// title and image won't change between the occasions we show the dialog
+    	// title won't change between the occasions we show the dialog
     	// so we can set them here
     	dialog.setContentView(R.layout.stats_dialog);
     	dialog.setTitle(R.string.statsString);
-    	ImageView image = (ImageView) dialog.findViewById(R.id.stats_dialog_image);
-    	image.setImageResource(R.drawable.ic_launcher);
+
     	
     	return dialog;
 	}
