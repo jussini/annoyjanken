@@ -2,6 +2,9 @@ package net.ankkatalo.janken;
 
 import java.util.Random;
 
+/**
+ * Strategy that will return with an random item.
+ * */
 public class RandomStrategy extends Strategy {
 
 

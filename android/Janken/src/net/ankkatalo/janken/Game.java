@@ -6,6 +6,11 @@ import java.util.Random;
 
 import net.ankkatalo.janken.Strategy.Certainty;
 
+/**
+ * Class responsible for game related issues like selecting the winner,
+ * managing different strategies and selecting the best strategy for each
+ * situation. 
+ * */
 public class Game {
 	
 	
@@ -28,6 +33,13 @@ public class Game {
 		mStrategies.add(new PreviousPlayerBeaterStrategy());
 	}
 
+	
+	/**
+	 * Updates the history and calls updateStrategy for all strategies
+	 * 
+	 * @param playerItem the item player previously gave
+	 * @param cpuItem the item cpu predicted for last round
+	 * */
 	public void updateStrategies(Item playerItem, Item cpuItem) {
 		
 		if (playerItem.beats(cpuItem) == WinType.BEATS) {
@@ -186,26 +198,52 @@ public class Game {
 	}
 	
 	
+	/**
+	 * Clears the learning data (history) from the strategies
+	 * */
 	public void clearHistory() {
 		for (Strategy s : mStrategies) {
 			s.clearHistory();
 		}		
 	}
 	
+	/**
+	 * Returns all the items player has given in a concatenated shorthand form.
+	 * For example if player has given items Rock->Scissors->Paper->Paper this
+	 * this will return "RSPP"
+	 * 
+	 * @returns players history
+	 * */
 	public String playerHistory() {
 		return Strategy.playerHistory();
 	}
-	
+	/**
+	 * Returns all the items cpu has given in a concatenated shorthand form.
+	 * For example if cpu has given items Rock->Scissors->Paper->Paper this
+	 * this will return "RSPP"
+	 * 
+	 * @returns cpu history
+	 * */
 	public String cpuHistory() {
 		return Strategy.cpuHistory();
 	}
 
 	
+	/**
+	 * Sets the learning data for player and cpu in concatenated shorthand form.
+	 * @see playerHistory
+	 * @see cpuHistory
+	 * */
 	public void setHistory(String playerHistory, String cpuHistory) {		
 		Strategy.setPlayerHistory(playerHistory);
 		Strategy.setCpuHistory(cpuHistory);
 	}
 
+	/**
+	 * Initializes all strategies by calling initStrategy for them
+	 * 
+	 * @see Strategy
+	 * */
 	public void initStrategies() {
 		
 		for (Strategy s : mStrategies) {

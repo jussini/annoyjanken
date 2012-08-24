@@ -1,5 +1,8 @@
 package net.ankkatalo.janken;
 
+/**
+ * Class for storing name and Item each player (human or cpu) has
+ * */
 public class Player {
 
 	private Item mItem;

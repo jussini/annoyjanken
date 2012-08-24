@@ -3,6 +3,9 @@ package net.ankkatalo.janken;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * Strategy that assumes player's actions follow certain patterns. 
+ * */
 public class FrequencyStrategy extends Strategy {
 
 	// size of the window cpu player should use when determining user tendensies

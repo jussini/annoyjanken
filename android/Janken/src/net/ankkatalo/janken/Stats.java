@@ -1,5 +1,8 @@
 package net.ankkatalo.janken;
 
+/**
+ * Class responsible for storing game stats (wins/loses/ties)
+ * */
 public class Stats {
 
 	// game statistics

@@ -1,5 +1,10 @@
 package net.ankkatalo.janken;
 
+
+/**
+ * Strategy that assumes player will always give an item that would beat their
+ * previous item and responds accordingly
+ * */
 public class PreviousPlayerBeaterStrategy extends Strategy {
 
 	@Override
@@ -8,9 +13,6 @@ public class PreviousPlayerBeaterStrategy extends Strategy {
 	}
 
 	@Override
-	/**
-	 * selects a response that will beat the last selection by the player
-	 * */
 	public Item selectResponse() {
 
 		

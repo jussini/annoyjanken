@@ -1,5 +1,9 @@
 package net.ankkatalo.janken;
 
+/**
+ * Strategy that assumes player will always give an item that would beat the
+ * last item given by cpu and responds accordingly
+ * */
 public class PreviousCpuBeaterStrategy extends Strategy {
 
 	@Override
