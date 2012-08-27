@@ -28,6 +28,7 @@ public class JankenActivity extends Activity {
 	private final int STATS_DIALOG = 1;
 	private final int CLEAR_HISTORY_ALERT = 2;
 	private final int CLEAR_STATS_ALERT = 3;
+	private final int ABOUT_DIALOG = 4;
 	
     /** Called when the activity is first created. */
     @Override
@@ -179,6 +180,9 @@ public class JankenActivity extends Activity {
             case R.id.showStatsDialogItem:
             	showDialog(STATS_DIALOG);
             	return true;
+            case R.id.aboutItem:
+            	showDialog(ABOUT_DIALOG);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -194,6 +198,8 @@ public class JankenActivity extends Activity {
 			return getClearHistoryDialog();
 		case CLEAR_STATS_ALERT:
 			return getClearStatsDialog();
+		case ABOUT_DIALOG:
+			return getAboutDialog();
 		default:
 			// what else could we do?
 			return null;
@@ -292,6 +298,21 @@ public class JankenActivity extends Activity {
     	
     	return alert;        
     }
+    
+    public Dialog getAboutDialog() {
+    	// weird, docs say we should use getApplicationContext() here, but
+    	// that ends up with BadTokenException O_o
+    	// thanks, stackoverflow, for this hint.
+    	Dialog dialog = new Dialog(this);
+
+    	// title won't change between the occasions we show the dialog
+    	// so we can set them here
+    	dialog.setContentView(R.layout.about_dialog);
+    	dialog.setTitle(R.string.aboutTitleString);
+
+    	
+    	return dialog;
+	}
     
 	
     public void clearStats() {

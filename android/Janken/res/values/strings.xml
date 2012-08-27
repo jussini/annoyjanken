@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, JankenActivity!</string>
-    <string name="app_name">Janken</string>
+    <string name="app_name">Annoy Janken</string>
     <string name="clearHistoryString">Clear history</string>
     <string name="clearStatsString">Clear stats</string>
     <string name="showStatsDialogString">Show Stats</string>
@@ -12,5 +12,11 @@
     <string name="cpuLabelString">Cpu wins:</string>
     <string name="tieLabelString">Ties:</string>
     <string name="dataSizeLabelString">Learning history size:</string>
+    <string name="versionTextString">Version: 2012.35-1</string>
+    <string name="copyrightTextString">(C) Jussi Niskanen 2012</string>
+    <string name="emailTextString">jussini@gmail.com</string>
+    <string name="websiteTextString">http://ankkatalo.net/janken</string>
+    <string name="aboutString">About</string>
+    <string name="aboutTitleString">AnnoyJanken</string>
 
 </resources>

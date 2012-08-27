@@ -6,5 +6,6 @@
         android:title="@string/clearHistoryString" />
     <item android:id="@+id/clearStatsItem" 
         android:title="@string/clearStatsString" />
-
+    <item android:id="@+id/aboutItem" 
+        android:title="@string/aboutString" />
 </menu>
