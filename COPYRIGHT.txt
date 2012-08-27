@@ -1,0 +1,9 @@
+
+Android app graphics utilize symbols 
+http://en.wikipedia.org/wiki/File:Rock-paper-scissors_(rock).png
+http://en.wikipedia.org/wiki/File:Rock-paper-scissors_(paper).png
+http://en.wikipedia.org/wiki/File:Rock-paper-scissors_(scissors).png
+
+licensed underCreative Commons Attribution-Share Alike 3.0 Unported license.
+http://creativecommons.org/licenses/by-sa/3.0/deed.en
+
