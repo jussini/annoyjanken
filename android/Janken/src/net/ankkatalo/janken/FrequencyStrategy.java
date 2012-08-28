@@ -100,6 +100,8 @@ public class FrequencyStrategy extends Strategy {
 		} else {
 			mFreqMap.put(feature, 1);
 		}
+		
+		mLastUpdate = new Date();
 	}
 	
 	@Override
