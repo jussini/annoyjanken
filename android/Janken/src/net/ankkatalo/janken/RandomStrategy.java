@@ -11,12 +11,12 @@ public class RandomStrategy extends Strategy {
 	public RandomStrategy() {
 		super();
 	}
-	
+
 	@Override
 	public void initStrategy() {
 		// NOP
 	}
-	
+
 	@Override
 	/**
 	 * Picks a response by a random
@@ -24,10 +24,10 @@ public class RandomStrategy extends Strategy {
 	public Item selectResponse() {
 
 		Random random = new Random();
-		
+
 		int index = random.nextInt(mSampleSpace.size());
 		return mSampleSpace.get(index);
-		
+
 	}
 
 	@Override
@@ -44,6 +44,6 @@ public class RandomStrategy extends Strategy {
 	public String name() {
 		return "Random";
 	}
-	
+
 }
 

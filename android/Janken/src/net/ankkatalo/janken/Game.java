@@ -12,17 +12,17 @@ import net.ankkatalo.janken.Strategy.Certainty;
  * situation. 
  * */
 public class Game {
-	
-	
+
+
 	private List<Strategy> mStrategies = new ArrayList<Strategy>();
-	
+
 	public enum WinType {BEATS, LOSES, TIE}
-	
+
 	// init number of losses to 2 to force a new strategy to be picked on 
 	// first round
 	private int mCurrentStrategyLossStreak = 2; 
 	private int mCurrentStrategyIndex = 0;
-	
+
 	/**  
 	 * constructor
 	 * */
@@ -33,7 +33,7 @@ public class Game {
 		mStrategies.add(new PreviousPlayerBeaterStrategy());
 	}
 
-	
+
 	/**
 	 * Updates the history and calls updateStrategy for all strategies
 	 * 
@@ -41,21 +41,21 @@ public class Game {
 	 * @param cpuItem the item cpu predicted for last round
 	 * */
 	public void updateStrategies(Item playerItem, Item cpuItem) {
-		
+
 		if (playerItem.beats(cpuItem) == WinType.BEATS) {
 			mCurrentStrategyLossStreak++;
 		}
-		
+
 		// update player and cpu histories
 		Strategy.setPlayerHistory(Strategy.playerHistory()  + playerItem.shortName());
 		Strategy.setCpuHistory(Strategy.cpuHistory()  + cpuItem.shortName());		
-		
+
 		// run individual strategy updates
 		for (Strategy s : mStrategies) {
 			s.updateStrategy(playerItem, cpuItem);
 		}
 	} 
-	
+
 	/**
 	 * Decides what to use as a response. Works by trying to guess the best
 	 * response based on player's previous activities.
@@ -85,7 +85,7 @@ public class Game {
 		 * */
 		Random random = new Random();
 		int nextIndex = -1;
-		
+
 
 		// on start of every round, ask strategies if they have any certainties
 		//
@@ -128,17 +128,17 @@ public class Game {
 		if (nextIndex >= 0) {
 			mCurrentStrategyIndex = nextIndex;
 		}
-			
 
-		
+
+
 		// no need to change strategy if we have already picked a new one
 		if (mCurrentStrategyLossStreak >= 2 && nextIndex != -1) {
 			mCurrentStrategyLossStreak = 0;
 		}
-		
+
 		// if the loss streak is on, force changing the strategy
 		if (mCurrentStrategyLossStreak >= 2) {
-			
+
 			boolean certain = false;
 			for (int i = 0; i < mStrategies.size(); ++i) {
 				if (mStrategies.get(i).certainty().compareTo(Certainty.GUESS) > 0 ) {
@@ -152,15 +152,15 @@ public class Game {
 			} 			
 			mCurrentStrategyLossStreak = 0;
 		}
-		
-		
+
+
 		// get initial response
 		Strategy s = mStrategies.get(mCurrentStrategyIndex);
 		Item response = s.selectResponse();
-		
+
 		// ...and if it's not available, keep trying until we get one
 		while (response == null) {
-			
+
 			boolean certain = false;
 			for (int i = 0; i < mStrategies.size(); ++i) {
 				if (mStrategies.get(i).certainty().compareTo(Certainty.GUESS) > 0 ) {
@@ -172,15 +172,15 @@ public class Game {
 			if (!certain) {
 				mCurrentStrategyIndex = (mCurrentStrategyIndex + 1) % mStrategies.size();
 			} 
-			
+
 			s = mStrategies.get(mCurrentStrategyIndex);
 			response = mStrategies.get(mCurrentStrategyIndex).selectResponse();
 		}
-		
+
 		return response;		
 	}
-	
-	
+
+
 	/**
 	 * Quickly decides which of the player1 and player2 wins. Works by comparing
 	 * the items the players have.
@@ -196,8 +196,8 @@ public class Game {
 		}
 		return null; // ugh, this is ugly
 	}
-	
-	
+
+
 	/**
 	 * Clears the learning data (history) from the strategies
 	 * */
@@ -206,7 +206,7 @@ public class Game {
 			s.clearHistory();
 		}		
 	}
-	
+
 	/**
 	 * Returns all the items player has given in a concatenated shorthand form.
 	 * For example if player has given items Rock->Scissors->Paper->Paper this
@@ -228,7 +228,7 @@ public class Game {
 		return Strategy.cpuHistory();
 	}
 
-	
+
 	/**
 	 * Sets the learning data for player and cpu in concatenated shorthand form.
 	 * @see playerHistory
@@ -245,11 +245,11 @@ public class Game {
 	 * @see Strategy
 	 * */
 	public void initStrategies() {
-		
+
 		for (Strategy s : mStrategies) {
 			s.initStrategy();
 		}
-				
+
 	}
-		
+
 }
